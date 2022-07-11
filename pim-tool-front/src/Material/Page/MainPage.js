@@ -1,9 +1,13 @@
 import React from 'react';
 import {Container, Row, Col} from 'react-bootstrap';
-import {BrowserRouter, Route} from 'react-router-dom';
+import {BrowserRouter, Route, Switch} from 'react-router-dom';
 import Header from './Header';
 import Navigation from './Navigation';
 import ErrorScreen from './ErrorScreen';
+import ProjectScreen from "./ProjectScreen";
+import CustomerScreen from "./CustomerScreen";
+import SupplierScreen from "./SupplierScreen";
+import ProjectList from "./ProjectList";
 
 class MainPage extends React.Component {
     render() {
@@ -19,9 +23,15 @@ class MainPage extends React.Component {
                         <Row>
                             <Col xl={1}/>
                             <Col xl={2}>
-                                <Route exact path="/" component={Navigation}/>
+                                <Route path="/" component={Navigation}/>
                             </Col>
                             <Col xl={9}>
+                                <Switch>
+                                    <Route exact path="/" component={ProjectList}/>
+                                    <Route exact path="/project" component={ProjectScreen}/>
+                                    <Route exact path="/customer" component={CustomerScreen}/>
+                                    <Route exact path="/supplier" component={SupplierScreen}/>
+                                </Switch>
                             </Col>
                             <Col>
                                 <Route path="/error" component={ErrorScreen}/>

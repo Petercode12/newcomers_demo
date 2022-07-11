@@ -1,30 +1,23 @@
 package vn.elca.training.service;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-
 import com.querydsl.jpa.impl.JPAQuery;
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
-
 import org.springframework.test.context.junit4.SpringRunner;
 import vn.elca.training.ApplicationWebConfig;
-import vn.elca.training.model.entity.Project;
-import vn.elca.training.model.entity.QTask;
-import vn.elca.training.model.entity.QTaskAudit;
-import vn.elca.training.model.entity.Task;
-import vn.elca.training.model.entity.TaskAudit;
+import vn.elca.training.model.entity.*;
 import vn.elca.training.model.exception.DeadlineAfterFinishingDateException;
 import vn.elca.training.repository.ProjectRepository;
 import vn.elca.training.repository.TaskRepository;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author vlp
@@ -33,7 +26,7 @@ import vn.elca.training.repository.TaskRepository;
 @ContextConfiguration(classes = {ApplicationWebConfig.class})
 @RunWith(value=SpringRunner.class)
 // please remove this annotation to do the Hibernate exercise
-@Ignore
+// @Ignore
 public class TaskServiceTest {
 	@PersistenceContext
 	private EntityManager em;
@@ -58,14 +51,14 @@ public class TaskServiceTest {
 
 	@Test
 	public void testListNumberOfTasks() {
-		createProjectAndTaskData(1, 3);
+		createProjectAndTaskData(3, 3);
 		List<Project> projectsByTaskName = taskService.findProjectsByTaskName("Task 1");
 		Assert.assertTrue(taskService.listNumberOfTasks(projectsByTaskName).size() > 0);
 	}
 
 	@Test
 	public void testShowProjectNameOfTopTenNewTasks() {
-		createProjectAndTaskData(100, 1);
+		createProjectAndTaskData(100, 2);
 		System.out.println(">>>>>>> Start Test case >>>>>");
 		List<String> names = taskService.listProjectNameOfRecentTasks();
 		Assert.assertTrue(names.size() > 0);
@@ -113,6 +106,7 @@ public class TaskServiceTest {
 		} catch (Exception e) {
 			// just swallow it here because we are testing the case the task is inserted with invalid deadline.
 		}
+
 		Assert.assertNull("Task should not be saved to DB because its deadline is invalid.",
 				new JPAQuery<Task>(em)
 						.from(QTask.task)

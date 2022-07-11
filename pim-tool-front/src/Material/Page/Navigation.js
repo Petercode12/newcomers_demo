@@ -27,9 +27,9 @@ class Navigation extends React.Component {
                                         <Translate content="navigation.new"/>
                                     </p>
                                 </Nav.Link>
-                                <Nav.Link><Translate content="navigation.project"/></Nav.Link>
-                                <Nav.Link><Translate content="navigation.customer"/></Nav.Link>
-                                <Nav.Link><Translate content="navigation.supplier"/></Nav.Link>
+                                <Nav.Link href="/project"><Translate content="navigation.project"/></Nav.Link>
+                                <Nav.Link href="/customer"><Translate content="navigation.customer"/></Nav.Link>
+                                <Nav.Link href="/supplier"><Translate content="navigation.supplier"/></Nav.Link>
                             </Col>
                         </Row>
                     </Nav>

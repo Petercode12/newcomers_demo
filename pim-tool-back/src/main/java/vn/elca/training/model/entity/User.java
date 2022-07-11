@@ -2,13 +2,7 @@ package vn.elca.training.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
 
@@ -23,13 +17,14 @@ public class User implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true, nullable = false)
+    @Column(length = 128, unique = true, nullable = false)
     private String username;
 
     @Column
     private String fullName;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+//    @JsonIgnore
     private List<Task> tasks;
 
     public User() {}
@@ -56,5 +51,12 @@ public class User implements Serializable {
 
     public void setTasks(List<Task> tasks) {
         this.tasks = tasks;
+        setUserForTasks(tasks);
+    }
+
+    public void setUserForTasks(List<Task> tasks) {
+        for(Task t: tasks) {
+            t.setUser(this);
+        }
     }
 }

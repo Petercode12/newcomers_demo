@@ -1,0 +1,18 @@
+.required:after {
+    content:" *";
+    color: red;
+}
+
+.wholeForm {
+    margin-top: 2em;
+}
+
+.wholeForm div{
+    margin-bottom: 1.8em;
+}
+
+.btn {
+    float: right;
+    margin-right: 2em;
+}
+

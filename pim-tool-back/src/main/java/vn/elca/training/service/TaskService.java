@@ -1,11 +1,12 @@
 package vn.elca.training.service;
 
-import java.time.LocalDate;
-import java.util.List;
-
+import org.springframework.transaction.annotation.Transactional;
 import vn.elca.training.model.entity.Project;
 import vn.elca.training.model.entity.Task;
 import vn.elca.training.model.exception.DeadlineAfterFinishingDateException;
+
+import java.time.LocalDate;
+import java.util.List;
 
 /**
  * @author vlp
@@ -22,7 +23,9 @@ public interface TaskService {
 
     Task getTaskById(Long id);
 
+    @Transactional(rollbackFor = Exception.class)
 	void updateDeadline(Long taskId, LocalDate deadline) throws DeadlineAfterFinishingDateException;
 
     void createTaskForProject(String taskName, LocalDate deadline, Project project);
+
 }

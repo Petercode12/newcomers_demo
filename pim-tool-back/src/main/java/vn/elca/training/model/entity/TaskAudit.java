@@ -15,14 +15,9 @@
 
 package vn.elca.training.model.entity;
 
-import java.time.LocalDate;
-
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
 
 /**
  * @author vlp
@@ -36,6 +31,7 @@ public class TaskAudit {
 
     @Column(nullable = false)
     @NotNull
+//    @Enumerated(EnumType.STRING)
     private AuditType auditType;
 
     @Column(nullable = false)

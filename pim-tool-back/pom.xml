@@ -91,6 +91,18 @@
             <artifactId>commons-io</artifactId>
             <version>${common-io.version}</version>
         </dependency>
+
+        <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>8.0.29</version>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+        </dependency>
+
     </dependencies>
 
     <!-- Package as an executable jar -->
@@ -105,9 +117,9 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>${maven-compiler-plugin.version}</version>
-                <configuration>
-                    <release>11</release>
-                </configuration>
+<!--                <configuration>-->
+<!--                    <release>11</release>-->
+<!--                </configuration>-->
             </plugin>
             <plugin>
                 <groupId>com.mysema.maven</groupId>
