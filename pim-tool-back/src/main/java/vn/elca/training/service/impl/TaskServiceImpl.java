@@ -27,11 +27,13 @@ import vn.elca.training.model.entity.TaskAudit.AuditType;
 import vn.elca.training.model.entity.TaskAudit.Status;
 import vn.elca.training.model.exception.ApplicationUnexpectedException;
 import vn.elca.training.model.exception.DeadlineAfterFinishingDateException;
-import vn.elca.training.validator.TaskValidator;
 import vn.elca.training.repository.TaskRepository;
 import vn.elca.training.service.AuditService;
 import vn.elca.training.service.TaskService;
+import vn.elca.training.validator.TaskValidator;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -47,6 +49,9 @@ import java.util.UUID;
 public class TaskServiceImpl implements TaskService {
 	private Log logger = LogFactory.getLog(getClass());
 	private static final int FETCH_LIMIT = 10;
+
+	@PersistenceContext
+	private EntityManager em;
 
 	@Autowired
 	private TaskRepository taskRepository;
@@ -64,6 +69,10 @@ public class TaskServiceImpl implements TaskService {
 	public List<String> listNumberOfTasks(List<Project> projects) {
 		List<String> result = new ArrayList<>(projects.size());
 		for (Project project : projects) {
+//			EntityGraph<?> graph = em.getEntityGraph("graph.Project");
+//			Map<String, Object> hints = new HashMap<>();
+//			hints.put("javax.persistence.fetchgraph", graph);
+//			Project projectFound = em.find(Project.class, project.getId(), hints);
 			result.add(String.format("Project %s has %s tasks.", project.getName(), project.getTasks().size()));
 		}
 		return result;
@@ -81,10 +90,11 @@ public class TaskServiceImpl implements TaskService {
 
 	@Override
 	public List<Task> listTasksById(List<Long> ids) {
-		List<Task> tasks = new ArrayList<>(ids.size());
-		for (Long id : ids) {
-			tasks.add(getTaskById(id));
-		}
+//		List<Task> tasks = new ArrayList<>(ids.size());
+//		for (Long id : ids) {
+//			tasks.add(getTaskById(id));
+//		}
+		List<Task> tasks = taskRepository.getlistTasksById(ids);
 		return tasks;
 	}
 
@@ -106,7 +116,7 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	@Override
-	public void createTaskForProject(String taskName, LocalDate deadline, Project project) {
+	public void createTaskForProject(String taskName, LocalDate deadline, Project project){
 		Task task = new Task(project, taskName);
 		task.setDeadline(deadline);
 		AuditType auditType = AuditType.INSERT;
@@ -124,9 +134,8 @@ public class TaskServiceImpl implements TaskService {
 	}
 
 	private Task save(Task task) throws DeadlineAfterFinishingDateException {
-		Task result = taskRepository.save(task);
 		taskValidator.validate(task);
-
+		Task result = taskRepository.save(task);
 		return result;
 	}
 }
