@@ -8,6 +8,7 @@ import ProjectScreen from "./ProjectScreen";
 import CustomerScreen from "./CustomerScreen";
 import SupplierScreen from "./SupplierScreen";
 import ProjectList from "./ProjectList";
+import DataFetching from "./DataFetching";
 
 class MainPage extends React.Component {
     render() {
@@ -29,7 +30,7 @@ class MainPage extends React.Component {
                                 <Switch>
                                     <Route exact path="/" component={ProjectList}/>
                                     <Route exact path="/project" component={ProjectScreen}/>
-                                    <Route exact path="/customer" component={CustomerScreen}/>
+                                    <Route exact path="/customer" component={DataFetching}/>
                                     <Route exact path="/supplier" component={SupplierScreen}/>
                                 </Switch>
                             </Col>
