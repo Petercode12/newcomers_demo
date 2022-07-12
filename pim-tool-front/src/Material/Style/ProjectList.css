@@ -1,3 +1,17 @@
 table {
     text-align: center;
 }
+.filterForm {
+    margin-top: 2em;
+    margin-bottom: 2em;
+}
+.btn {
+    float: right;
+    margin-right: 1em;
+}
+.rpb-root {
+    float: right;
+}
+td > .nav-link {
+    padding: 0 10px 0 10px;
+}
