@@ -1,37 +1,8 @@
-import React, { useState } from 'react';
+import React, {useState, useEffect} from 'react';
 import '../Style/ProjectList.css';
 import 'react-pagination-bar/dist/index.css'
 import {Button, Col, Form, FormCheck, Nav, Row, Table} from "react-bootstrap";
-import {useEffect} from "react";
 import axios from "axios";
-
-// function filterProject() {
-//     const status = document.getElementById('filterByStatus').value;
-// }
-
-const SearchPage = () => {
-    return (
-        <div>
-            <Form className="filterForm">
-                <Form.Group as={Row} className="mb-3">
-                    <Col sm="3">
-                        <Form.Control type="text" id="filterByName"/>
-                    </Col>
-                    <Col sm="3">
-                        <Form.Control type="text" as="select" id="filterByStatus">
-                            <option value="NEW">New</option>
-                            <option value="FIN">Finished</option>
-                            <option value="INP">In progress</option>
-                            <option value="PLA">Planned</option>
-                        </Form.Control>
-                    </Col>
-                    <Button as="input" variant="primary" type="submit" value="Search Project" />
-                    <Button as="input" variant="secondary" type="submit" value="Reset Search" />
-                </Form.Group>
-            </Form>
-        </div>
-    );
-}
 
 function ProjectList() {
     const [posts, setPosts] = useState([])
@@ -46,15 +17,37 @@ function ProjectList() {
             })
     }, [])
     console.log(posts);
-
     const [currentPage, setCurrentPage] = useState(1);
     const pagePostsLimit = 3;
+    
+    const handleFilter = () => {
+        const filtered = posts.filter((post) => post.status === document.getElementById('filterByStatus').value);
+        setPosts(filtered);
+    };
 
     return (
         <div>
             <h2 style={{marginTop:"1em"}}>Project List</h2>
             <hr/>
-            <SearchPage />
+            <div>
+                <Form className="filterForm">
+                    <Form.Group as={Row} className="mb-3">
+                        <Col sm="3">
+                            <Form.Control type="text" id="filterByName"/>
+                        </Col>
+                        <Col sm="3">
+                            <Form.Control type="text" as="select" id="filterByStatus">
+                                <option value="NEW">New</option>
+                                <option value="FIN">Finished</option>
+                                <option value="INP">In progress</option>
+                                <option value="PLA">Planned</option>
+                            </Form.Control>
+                        </Col>
+                        <Button as="input" variant="primary" value="Search Project" onClick={ handleFilter } />
+                        <Button as="input" variant="secondary" value="Reset Search" />
+                    </Form.Group>
+                </Form>
+            </div>
             <Table responsive>
                 <thead>
                 <tr>
