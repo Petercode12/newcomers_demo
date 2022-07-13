@@ -16,7 +16,7 @@ import java.util.Set;
 )
 @Entity
 public class Project {
-    enum STATUS{
+    public enum STATUS{
         NEW, PLA, INP, FIN
     }
     @Id

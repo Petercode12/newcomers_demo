@@ -1,32 +1,28 @@
 import React, { useState } from 'react';
 import '../Style/ProjectList.css';
-import { Pagination } from "react-pagination-bar"
 import 'react-pagination-bar/dist/index.css'
 import {Button, Col, Form, FormCheck, Nav, Row, Table} from "react-bootstrap";
 import {useEffect} from "react";
 import axios from "axios";
 
-const posts = [
-    {id: 1, name: 'EFV', finishingDate: '2020-04-20'},
-    {id: 2, name: 'CXTRANET', finishingDate: '2020-04-25'},
-    {id: 3, name: 'CRYSTAL BALL', finishingDate: '2020-04-28'},
-    {id: 4, name: 'IOC CLIENT EXTRANET', finishingDate: '2020-06-07'},
-    {id: 5, name: 'TRADEECO', finishingDate: '2020-06-08'}
-];
+// function filterProject() {
+//     const status = document.getElementById('filterByStatus').value;
+// }
+
 const SearchPage = () => {
     return (
         <div>
             <Form className="filterForm">
-                <Form.Group as={Row} className="mb-3" controlId="projectFilter">
+                <Form.Group as={Row} className="mb-3">
                     <Col sm="3">
-                        <Form.Control type="text" />
+                        <Form.Control type="text" id="filterByName"/>
                     </Col>
                     <Col sm="3">
-                        <Form.Control type="text" as="select">
-                            <option>New</option>
-                            <option>Finished</option>
-                            <option>In progress</option>
-                            <option>Planned</option>
+                        <Form.Control type="text" as="select" id="filterByStatus">
+                            <option value="NEW">New</option>
+                            <option value="FIN">Finished</option>
+                            <option value="INP">In progress</option>
+                            <option value="PLA">Planned</option>
                         </Form.Control>
                     </Col>
                     <Button as="input" variant="primary" type="submit" value="Search Project" />
@@ -108,15 +104,10 @@ function ProjectList() {
                     })}
                 </tbody>
             </Table>
-
-            <Pagination
-                style={{float: "left"}}
-                initialPage={currentPage}
-                itemsPerPage={pagePostsLimit}
-                onPageСhange={(pageNumber) => setCurrentPage(pageNumber)}
-                totalItems={posts.length}
-                pageNeighbours={2}>
-            </Pagination>
+            <div className="paginationBtn">
+                <button onClick={() =>  currentPage > 1 ? setCurrentPage(() => currentPage - 1) : setCurrentPage(currentPage)}>Left</button>
+                <button onClick={() =>  currentPage < Math.ceil(posts.length/pagePostsLimit) ? setCurrentPage(() => currentPage + 1) : setCurrentPage(currentPage)}>Right</button>
+            </div>
         </div>
     );
 }

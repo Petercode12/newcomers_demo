@@ -17,3 +17,5 @@ VALUES
     ('EFV_TASK_1', '2020-03-05', 1, 1),
     ('EFV_TASK_2', '2020-03-10', 1, null),
     ('EFV_TASK_3', '2020-03-15', 1, null);
+
+INSERT INTO PROJECT VALUES (6, null, "2020-04-30", null, "ELCA", null, null, "2020-01-22", 2, null);

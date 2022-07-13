@@ -25,4 +25,9 @@ public class FirstDummyProjectServiceImpl extends AbstractDummyProjectService im
         printCurrentActiveProfiles();
         throw new UnsupportedOperationException("This is first dummy service");
     }
+
+    @Override
+    public Project update(Project project){
+        throw new UnsupportedOperationException("This is first dummy service");
+    }
 }

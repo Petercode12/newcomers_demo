@@ -29,4 +29,9 @@ public class ProjectServiceImpl implements ProjectService {
     public long count() {
         return projectRepository.count();
     }
+
+    @Override
+    public Project update(Project project) {
+        return projectRepository.save(project);
+    }
 }

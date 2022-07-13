@@ -15,3 +15,7 @@ table {
 td > .nav-link {
     padding: 0 10px 0 10px;
 }
+.paginationBtn {
+    float: right;
+    margin-right: 3em;
+}

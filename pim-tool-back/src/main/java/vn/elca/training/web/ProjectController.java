@@ -1,12 +1,14 @@
 package vn.elca.training.web;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.util.CollectionUtils;
+import org.springframework.web.bind.annotation.*;
 import vn.elca.training.model.dto.ProjectDto;
+import vn.elca.training.model.dto.UserDto;
+import vn.elca.training.model.entity.Project;
+import vn.elca.training.model.entity.User;
 import vn.elca.training.service.ProjectService;
 
 import java.util.List;
@@ -32,5 +34,13 @@ public class ProjectController extends AbstractApplicationController {
                 .stream()
                 .map(mapper::projectToProjectDto)
                 .collect(Collectors.toList());
+    }
+
+    @PutMapping({"/update"})
+    public Project update(@RequestBody Project project) {
+        if (project == null) {
+            throw new IllegalArgumentException("Invalid request! Project not found");
+        }
+        return projectService.update(project);
     }
 }
