@@ -4,13 +4,21 @@ import 'react-pagination-bar/dist/index.css'
 import {Button, Col, Form, FormCheck, Nav, Row, Table} from "react-bootstrap";
 import axios from "axios";
 
+function deleteProject(project) {
+    axios.put('http://localhost:8080/projects/remove', project)
+        .then(res => res.data)
+        .catch(err => console.error("Wasn't able to delete property.", err));
+}
+
 function ProjectList() {
     const [posts, setPosts] = useState([])
+    const [tempPosts, setTempPosts] = useState([])
     useEffect(() => {
         axios.get('http://localhost:8080/projects/search')
             .then(res => {
                 console.log(res)
                 setPosts(res.data)
+                setTempPosts(res.data)
             })
             .catch(err => {
                 console.log(err)
@@ -19,12 +27,15 @@ function ProjectList() {
     console.log(posts);
     const [currentPage, setCurrentPage] = useState(1);
     const pagePostsLimit = 3;
-    
+
     const handleFilter = () => {
         const filtered = posts.filter((post) => post.status === document.getElementById('filterByStatus').value);
         setPosts(filtered);
     };
-
+    const removeElementById = (id) => {
+        const postsAfterRemove = posts.filter((post) => post.id !== id);
+        setPosts(postsAfterRemove);
+    }
     return (
         <div>
             <h2 style={{marginTop:"1em"}}>Project List</h2>
@@ -43,8 +54,8 @@ function ProjectList() {
                                 <option value="PLA">Planned</option>
                             </Form.Control>
                         </Col>
-                        <Button as="input" variant="primary" value="Search Project" onClick={ handleFilter } />
-                        <Button as="input" variant="secondary" value="Reset Search" />
+                        <Button as="input" variant="primary" defaultValue="Search Project" onClick={ () => {handleFilter(); setCurrentPage(1)} } />
+                        <Button as="input" variant="secondary" defaultValue="Reset Search" onClick={ () => setPosts(tempPosts) }/>
                     </Form.Group>
                 </Form>
             </div>
@@ -90,7 +101,7 @@ function ProjectList() {
                                     {post.startDate}
                                 </td>
                                 <td>
-                                    <i className="fa fa-trash" aria-hidden="true" style={{color: "red"}}></i>
+                                    <button className="fa fa-trash"  style={{color: "red", backgroundColor: "white", border: 0}} onClick={() => { deleteProject(post); removeElementById(post.id) }}></button>
                                 </td>
                             </tr>
                         );

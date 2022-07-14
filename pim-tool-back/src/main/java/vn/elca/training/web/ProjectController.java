@@ -43,4 +43,12 @@ public class ProjectController extends AbstractApplicationController {
         }
         return projectService.update(project);
     }
+
+    @PutMapping({"/remove"})
+    public void remove(@RequestBody Project project) {
+        if (project == null) {
+            throw new IllegalArgumentException("Invalid request! Project not found");
+        }
+        projectService.remove(project);
+    }
 }

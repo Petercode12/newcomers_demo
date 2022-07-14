@@ -29,7 +29,7 @@ class ProjectScreen extends React.Component {
                     <Form.Group as={Row} className="mb-3" controlId="formProjectNumber">
                         <Form.Label column sm="2" className="required">Project Number</Form.Label>
                         <Col sm="3">
-                            <Form.Control type="text" />
+                            <Form.Control type="text"/>
                         </Col>
                     </Form.Group>
 

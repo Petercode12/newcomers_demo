@@ -30,4 +30,7 @@ public class SecondDummyProjectServiceImpl extends AbstractDummyProjectService i
     public Project update(Project project){
         throw new UnsupportedOperationException("This is second dummy service");
     }
+
+    @Override
+    public void remove(Project project) {throw new UnsupportedOperationException("This is second dummy service");}
 }

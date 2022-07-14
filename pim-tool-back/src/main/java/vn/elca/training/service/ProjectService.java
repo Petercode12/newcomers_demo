@@ -14,4 +14,6 @@ public interface ProjectService {
     long count();
 
     Project update(Project project);
+
+    void remove(Project project);
 }
