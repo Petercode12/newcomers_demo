@@ -18,14 +18,14 @@ VALUES
     ('EFV_TASK_2', '2020-03-10', 1, null),
     ('EFV_TASK_3', '2020-03-15', 1, null);
 
-INSERT INTO PROJECT VALUES (6, null, "2020-04-30", null, "ELCA", null, null, "2020-01-21", 2, null);
+INSERT INTO PROJECT VALUES (6, null, "2020-04-30", null, "ELCA", null, 1903, "2020-01-21", 2, null);
 
-INSERT INTO PROJECT VALUES (7, null, "2020-04-3", null, "PHAP", null, null, "2020-01-25", 0, null);
+INSERT INTO PROJECT VALUES (7, null, "2020-04-3", null, "PHAP", null, 2001, "2020-01-25", 0, null);
 
-INSERT INTO PROJECT VALUES (8, null, "2020-04-20", null, "VONN", null, null, "2020-01-12", 3, null);
+INSERT INTO PROJECT VALUES (8, null, "2020-04-20", null, "VONN", null, 4678, "2020-01-12", 3, null);
 
-INSERT INTO PROJECT VALUES (9, null, "2020-05-10", null, "LINN", null, null, "2020-01-13", 1, null);
+INSERT INTO PROJECT VALUES (9, null, "2020-05-10", null, "LINN", null, 5912, "2020-01-13", 1, null);
 
-INSERT INTO PROJECT VALUES (10, null, "2020-06-10", null, "SECUTIX", null, null, "2020-01-15", 0, null);
+INSERT INTO PROJECT VALUES (10, null, "2020-06-10", null, "SECUTIX", null, 1122, "2020-01-15", 0, null);
 
-INSERT INTO PROJECT VALUES (11, null, "2020-08-20", null, "IPEN", null, null, "2020-01-18", 3, null);
+INSERT INTO PROJECT VALUES (11, null, "2020-08-20", null, "IPEN", null, 1234, "2020-01-18", 3, null);

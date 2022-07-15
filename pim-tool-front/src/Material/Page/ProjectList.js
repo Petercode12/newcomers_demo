@@ -13,6 +13,7 @@ function deleteProject(project) {
 function ProjectList() {
     const [posts, setPosts] = useState([])
     const [tempPosts, setTempPosts] = useState([])
+    const [numOfSelected, setNumOfSelected] = useState(0)
     useEffect(() => {
         axios.get('http://localhost:8080/projects/search')
             .then(res => {
@@ -26,16 +27,40 @@ function ProjectList() {
     }, [])
     console.log(posts);
     const [currentPage, setCurrentPage] = useState(1);
-    const pagePostsLimit = 3;
+    const pagePostsLimit = 8;
 
     const handleFilter = () => {
-        const filtered = posts.filter((post) => post.status === document.getElementById('filterByStatus').value);
-        setPosts(filtered);
+        if (document.getElementById('filterByStatus').value !== "select status") {
+            const filtered = posts.filter((post) => post.status === document.getElementById('filterByStatus').value);
+            setPosts(filtered);
+        }
     };
     const removeElementById = (id) => {
         const postsAfterRemove = posts.filter((post) => post.id !== id);
         setPosts(postsAfterRemove);
     }
+    const deleteBtn = (post) => {
+        console.log(post.status === "NEW")
+        if(post.status === "NEW") {
+            return <button className="fa fa-trash" style={{
+                color: "red",
+                backgroundColor: "white",
+                border: 0
+            }} onClick={() => {
+                deleteProject(post);
+                removeElementById(post.id)
+            }}></button>;
+        }
+    }
+
+    const searchProjectByName = () => {
+        const name = document.getElementById("filterByName").value;
+        if (name !== '') {
+            const filteredProjects = posts.filter((post) => post.name.toLowerCase().includes(name) || post.name.toUpperCase().includes(name));
+            setPosts(filteredProjects);
+        }
+    }
+
     return (
         <div>
             <h2 style={{marginTop:"1em"}}>Project List</h2>
@@ -44,17 +69,18 @@ function ProjectList() {
                 <Form className="filterForm">
                     <Form.Group as={Row} className="mb-3">
                         <Col sm="3">
-                            <Form.Control type="text" id="filterByName"/>
+                            <Form.Control type="text" id="filterByName" placeholder="Project number, name, customer name"/>
                         </Col>
                         <Col sm="3">
-                            <Form.Control type="text" as="select" id="filterByStatus">
+                            <Form.Control type="text" as="select" id="filterByStatus" defaultValue="select status">
+                                <option value="select status">Project Status</option>
                                 <option value="NEW">New</option>
                                 <option value="FIN">Finished</option>
                                 <option value="INP">In progress</option>
                                 <option value="PLA">Planned</option>
                             </Form.Control>
                         </Col>
-                        <Button as="input" variant="primary" defaultValue="Search Project" onClick={ () => {handleFilter(); setCurrentPage(1)} } />
+                        <Button as="input" variant="primary" defaultValue="Search Project" onClick={ () => {searchProjectByName(); handleFilter(); setCurrentPage(1)} } />
                         <Button as="input" variant="secondary" defaultValue="Reset Search" onClick={ () => setPosts(tempPosts) }/>
                     </Form.Group>
                 </Form>
@@ -81,11 +107,11 @@ function ProjectList() {
                         return (
                             <tr key={post.id}>
                                 <td>
-                                    <Form><FormCheck/></Form>
+                                    <Form><FormCheck onClick={() => setNumOfSelected(numOfSelected + 1)}/></Form>
                                 </td>
                                 <td>
-                                    <Nav.Link href="/editProject">
-                                        {post.id}
+                                    <Nav.Link href={ `\\editProject\\${post.id}`}>
+                                        {post.projectNumber}
                                     </Nav.Link>
                                 </td>
                                 <td>
@@ -101,11 +127,16 @@ function ProjectList() {
                                     {post.startDate}
                                 </td>
                                 <td>
-                                    <button className="fa fa-trash"  style={{color: "red", backgroundColor: "white", border: 0}} onClick={() => { deleteProject(post); removeElementById(post.id) }}></button>
+                                    {
+                                        deleteBtn(post)
+                                    }
                                 </td>
                             </tr>
                         );
                     })}
+                    <tr>
+                        <td colSpan="7" style={{textAlign: "left", color: "blue"}} id="numOfSelected">{numOfSelected} items selected</td>
+                    </tr>
                 </tbody>
             </Table>
             <div className="paginationBtn">

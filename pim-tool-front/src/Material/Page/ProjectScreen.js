@@ -7,9 +7,6 @@ function addProject() {
 
     const projectNumber = document.getElementById('formProjectNumber').value;
     const projectName = document.getElementById('formProjectName').value;
-    // const customer = document.getElementById('formCustomer').value;
-    // const group = document.getElementById('formGroup').value;
-    // const member = document.getElementById('formMembers').value;
     const status = document.getElementById('formStatus').value;
     const startDate = document.getElementById('startDate').value;
     const endDate = document.getElementById('endDate').value;
@@ -17,14 +14,52 @@ function addProject() {
     axios.put('http://localhost:8080/projects/update', bodyFormData)
         .then(res => res.data)
         .catch(err => console.error("Wasn't able to update property.", err));
+    console.log(bodyFormData)
 }
 
-class ProjectScreen extends React.Component {
-    render() {
-        return (
+function required() {
+    const projectNumber = document.getElementById('formProjectNumber').value;
+    const projectName = document.getElementById('formProjectName').value;
+    const customer = document.getElementById('formCustomer').value;
+    const group = document.getElementById('formGroup').value;
+    const status = document.getElementById('formStatus').value;
+    const startDate = document.getElementById('startDate').value;
+
+    if (projectNumber === "" || projectName === "" || customer === "" || group === "" || status === "" || startDate === ""){
+        let para = document.createElement("div");
+        para.className = "alert alert-danger";
+        para.id = "alertChild";
+        const node = document.createTextNode("Please enter all the mandatory fields (*)");
+        para.appendChild(node);
+
+        let para2 = document.createElement("a");
+        para2.href = "#";
+        para2.className = "close";
+        para2.id = "closeBtn";
+        para2.onclick = cancelAlert;
+        para2.innerHTML = "&times;";
+
+        const element = document.getElementById("alert");
+        para.appendChild(para2);
+        element.appendChild(para);
+
+    }
+}
+
+function cancelAlert() {
+    const element2 = document.getElementById("closeBtn");
+    element2.remove();
+    const element = document.getElementById("alertChild");
+    element.remove();
+}
+function ProjectScreen() {
+    return (
             <div>
                 <h2 style={{marginTop:"1em"}}>New Project</h2>
                 <hr/>
+                <div id="alert"></div>
+
+
                 <Form className="wholeForm">
                     <Form.Group as={Row} className="mb-3" controlId="formProjectNumber">
                         <Form.Label column sm="2" className="required">Project Number</Form.Label>
@@ -90,11 +125,10 @@ class ProjectScreen extends React.Component {
                     </Form.Group>
                 </Form>
                 <hr/>
-                <Button as="input" variant="primary" type="submit" value="Create Project" onClick={addProject} />
-                <Button as="input" variant="secondary" type="submit" value="Cancel" />
+                <Button as="input" variant="primary" type="submit" value="Create Project" onClick={() => {required(); addProject()}} />
+                <Button as="input" variant="secondary" type="submit" value="Cancel" onClick={() => {window.location.reload();}}/>
             </div>
         )
-    }
 }
 
 export default ProjectScreen;

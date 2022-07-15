@@ -22,6 +22,7 @@ public class ApplicationMapper {
     public ProjectDto projectToProjectDto(Project entity) {
         ProjectDto dto = new ProjectDto();
         dto.setId(entity.getId());
+        dto.setProjectNumber(entity.getProjectNumber());
         dto.setName(entity.getName());
         dto.setFinishingDate(entity.getFinishingDate());
         dto.setStartDate(entity.getStartDate());

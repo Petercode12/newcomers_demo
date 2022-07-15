@@ -11,6 +11,8 @@ import vn.elca.training.model.entity.Project.STATUS;
 
 public class ProjectDto {
     private Long id;
+
+    private Long projectNumber;
     private String name;
     private LocalDate finishingDate;
     private LocalDate startDate;
@@ -22,6 +24,14 @@ public class ProjectDto {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Long getProjectNumber() {
+        return projectNumber;
+    }
+
+    public void setProjectNumber(Long projectNumber) {
+        this.projectNumber = projectNumber;
     }
 
     public String getName() {
