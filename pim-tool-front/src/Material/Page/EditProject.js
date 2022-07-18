@@ -4,6 +4,19 @@ import {useParams} from "react-router-dom";
 import {useEffect, useState} from 'react';
 import axios from "axios";
 
+function updateProject(project) {
+    const projectId = project.id
+    const projectNumber = document.getElementById('formProjectNumber').value;
+    const projectName = document.getElementById('formProjectName').value;
+    const status = document.getElementById('formStatus').value;
+    const startDate = document.getElementById('formDate').value;
+    const bodyFormData = {"id": projectId, "projectNumber": projectNumber,"name": projectName,"startDate": startDate,"status": status};
+    axios.put('http://localhost:8080/projects/update', bodyFormData)
+        .then(res => res.data)
+        .catch(err => console.error("Wasn't able to update property.", err));
+    alert("Successfully save");
+}
+
 function EditProject() {
     const [post, setPost] = useState([])
     const params = useParams();
@@ -71,7 +84,7 @@ function EditProject() {
                     </Form.Group>
                 </Form>
                 <hr/>
-                <Button as="input" variant="primary" type="submit" value="Save" />
+                <Button as="input" variant="primary" type="submit" value="Save" onClick={() => {updateProject(post)}}/>
             </div>
         )
 }

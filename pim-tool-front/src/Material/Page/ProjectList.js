@@ -8,12 +8,13 @@ function deleteProject(project) {
     axios.put('http://localhost:8080/projects/remove', project)
         .then(res => res.data)
         .catch(err => console.error("Wasn't able to delete property.", err));
+    alert("Successfully delete");
 }
 
 function ProjectList() {
     const [posts, setPosts] = useState([])
     const [tempPosts, setTempPosts] = useState([])
-    const [numOfSelected, setNumOfSelected] = useState(0)
+    const [postsDel, setPostsDel] = useState([])
     useEffect(() => {
         axios.get('http://localhost:8080/projects/search')
             .then(res => {
@@ -39,8 +40,11 @@ function ProjectList() {
         const postsAfterRemove = posts.filter((post) => post.id !== id);
         setPosts(postsAfterRemove);
     }
+    const removeElementsById = (ids) => {
+        const postsAfterRemove = posts.filter((post) => !ids.includes(post.id));
+        setPosts(postsAfterRemove);
+    }
     const deleteBtn = (post) => {
-        console.log(post.status === "NEW")
         if(post.status === "NEW") {
             return <button className="fa fa-trash" style={{
                 color: "red",
@@ -58,6 +62,18 @@ function ProjectList() {
         if (name !== '') {
             const filteredProjects = posts.filter((post) => post.name.toLowerCase().includes(name) || post.name.toUpperCase().includes(name));
             setPosts(filteredProjects);
+        }
+    }
+
+    const checkedBoxCount = (post) => {
+        const box = document.querySelectorAll(".project".concat(post.id.toString()).concat(" .form-check-input"))[0]
+        console.log(box)
+        console.log(box.checked)
+        if (box.checked) {
+            setPostsDel([...postsDel, post])
+        }
+        else {
+            setPostsDel(postsDel.filter((p) => p.id !== post.id))
         }
     }
 
@@ -107,7 +123,7 @@ function ProjectList() {
                         return (
                             <tr key={post.id}>
                                 <td>
-                                    <Form><FormCheck onClick={() => setNumOfSelected(numOfSelected + 1)}/></Form>
+                                    <Form><FormCheck className={"project".concat(post.id)} id={post.id} onClick={() => {checkedBoxCount(post)}} disabled={ post.status === "NEW" ? "" : "disabled" }/></Form>
                                 </td>
                                 <td>
                                     <Nav.Link href={ `\\editProject\\${post.id}`}>
@@ -135,13 +151,27 @@ function ProjectList() {
                         );
                     })}
                     <tr>
-                        <td colSpan="7" style={{textAlign: "left", color: "blue"}} id="numOfSelected">{numOfSelected} items selected</td>
+                        <td colSpan="3" style={{textAlign: "left", color: "blue"}} id="numOfSelected">{postsDel.length} items selected</td>
+                        <td colSpan="4" style={{textAlign: "right", color: "red"}}>
+                            <button  style={{
+                                color: "red",
+                                backgroundColor: "white",
+                                border: 0
+                            }} onClick={ () => {
+                                let ids = [];
+                                for (const project of postsDel) {
+                                    ids.push(project.id)
+                                    deleteProject(project);
+                                }
+                                removeElementsById(ids);
+                            } }>delete selected items <i className="fa fa-trash"></i></button>
+                        </td>
                     </tr>
                 </tbody>
             </Table>
             <div className="paginationBtn">
-                <button onClick={() =>  currentPage > 1 ? setCurrentPage(() => currentPage - 1) : setCurrentPage(currentPage)}>Left</button>
-                <button onClick={() =>  currentPage < Math.ceil(posts.length/pagePostsLimit) ? setCurrentPage(() => currentPage + 1) : setCurrentPage(currentPage)}>Right</button>
+                <button onClick={() => { currentPage > 1 ? setCurrentPage(() => currentPage - 1) : setCurrentPage(currentPage); setPostsDel([]) }}>Left</button>
+                <button onClick={() => { currentPage < Math.ceil(posts.length/pagePostsLimit) ? setCurrentPage(() => currentPage + 1) : setCurrentPage(currentPage); setPostsDel([]) }}>Right</button>
             </div>
         </div>
     );

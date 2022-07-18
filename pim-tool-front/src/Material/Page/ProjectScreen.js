@@ -4,7 +4,6 @@ import '../Style/ProjectScreen.css';
 import axios from "axios";
 
 function addProject() {
-
     const projectNumber = document.getElementById('formProjectNumber').value;
     const projectName = document.getElementById('formProjectName').value;
     const status = document.getElementById('formStatus').value;
@@ -58,8 +57,6 @@ function ProjectScreen() {
                 <h2 style={{marginTop:"1em"}}>New Project</h2>
                 <hr/>
                 <div id="alert"></div>
-
-
                 <Form className="wholeForm">
                     <Form.Group as={Row} className="mb-3" controlId="formProjectNumber">
                         <Form.Label column sm="2" className="required">Project Number</Form.Label>
