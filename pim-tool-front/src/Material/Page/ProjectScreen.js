@@ -196,7 +196,37 @@ function ProjectScreen() {
                 <hr/>
                 <Button as="input" variant="primary" type="submit" value="Create Project" onClick={() =>
                 {
-                    console.log(document.getElementsByClassName('select__multi-value__label'))
+                    let check = false;
+                    for (const user of users) {
+                        for (let i = 0; i < document.getElementsByClassName('select__multi-value__label').length; i++) {
+                            console.log(user.visa)
+                            console.log(document.getElementsByClassName('select__multi-value__label')[0].innerHTML.split(":")[0])
+                            if (user.visa === document.getElementsByClassName('select__multi-value__label')[i].innerHTML.split(":")[0]) {
+                                check = true;
+                                console.log("here")
+                                break;
+                            }
+                        }
+                    }
+                    if (!check) {
+                            let para = document.createElement("div");
+                            para.className = "alert alert-danger";
+                            para.id = "alertChild";
+                            const node = document.createTextNode("Wrong visa");
+                            para.appendChild(node);
+
+                            let para2 = document.createElement("a");
+                            para2.href = "#";
+                            para2.className = "close";
+                            para2.id = "closeBtn";
+                            para2.onclick = cancelAlert;
+                            para2.innerHTML = "&times;";
+
+                            const element = document.getElementById("alert");
+                            para.appendChild(para2);
+                            element.appendChild(para);
+                     }
+
                     if(required()) {
                         if(validateProjectNum(document.getElementById('formProjectNumber').value)) {
                             addProject();
