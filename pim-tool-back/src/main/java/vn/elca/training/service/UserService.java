@@ -1,5 +1,6 @@
 package vn.elca.training.service;
 
+import vn.elca.training.model.entity.Project;
 import vn.elca.training.model.entity.User;
 
 import java.util.List;
@@ -16,4 +17,6 @@ public interface UserService {
     User addTasksToUser(List<Long> taskIds, String username);
 
     User update(User user);
+
+    List<User> findAll();
 }

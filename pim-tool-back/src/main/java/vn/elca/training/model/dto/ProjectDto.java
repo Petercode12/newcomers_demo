@@ -11,9 +11,9 @@ import vn.elca.training.model.entity.Project.STATUS;
 
 public class ProjectDto {
     private Long id;
-
     private Long projectNumber;
     private String name;
+    private String customer;
     private LocalDate finishingDate;
     private LocalDate startDate;
     private STATUS status;
@@ -40,6 +40,14 @@ public class ProjectDto {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(String customer) {
+        this.customer = customer;
     }
 
     public LocalDate getFinishingDate() {

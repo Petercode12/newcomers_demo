@@ -32,10 +32,8 @@ class MainPage extends React.Component {
                                     <Route exact path="/customer" component={CustomerScreen}/>
                                     <Route exact path="/supplier" component={SupplierScreen}/>
                                     <Route exact path="/editProject/:id" component={EditProject}/>
+                                    <Route path="/error" component={ErrorScreen}/>
                                 </Switch>
-                            </Col>
-                            <Col>
-                                <Route path="/error" component={ErrorScreen}/>
                             </Col>
                         </Row>
                     </BrowserRouter>

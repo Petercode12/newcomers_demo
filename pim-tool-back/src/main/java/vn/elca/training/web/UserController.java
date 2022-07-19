@@ -4,12 +4,14 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
+import vn.elca.training.model.dto.ProjectDto;
 import vn.elca.training.model.dto.UserDto;
 import vn.elca.training.model.entity.User;
 import vn.elca.training.service.UserService;
 import vn.elca.training.util.ApplicationMapper;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author gtn
@@ -32,6 +34,14 @@ public class UserController extends AbstractApplicationController {
     public UserDto findOne(@PathVariable String username) {
         User user = userService.findOne(username);
         return mapper.userToUserDto(user);
+    }
+
+    @GetMapping("/search")
+    public List<UserDto> search() {
+        return userService.findAll()
+                .stream()
+                .map(mapper::userToUserDto)
+                .collect(Collectors.toList());
     }
 
     @PostMapping("/{username}/addTasks")

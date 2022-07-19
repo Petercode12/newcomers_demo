@@ -3,18 +3,20 @@ import '../Style/ProjectList.css';
 import 'react-pagination-bar/dist/index.css'
 import {Button, Col, Form, FormCheck, Nav, Row, Table} from "react-bootstrap";
 import axios from "axios";
+import ReactPaginate from "react-paginate";
 
 function deleteProject(project) {
     axios.put('http://localhost:8080/projects/remove', project)
         .then(res => res.data)
         .catch(err => console.error("Wasn't able to delete property.", err));
-    alert("Successfully delete");
 }
 
 function ProjectList() {
     const [posts, setPosts] = useState([])
     const [tempPosts, setTempPosts] = useState([])
     const [postsDel, setPostsDel] = useState([])
+    const [itemOffset, setItemOffset] = useState(0);
+
     useEffect(() => {
         axios.get('http://localhost:8080/projects/search')
             .then(res => {
@@ -27,7 +29,6 @@ function ProjectList() {
             })
     }, [])
     console.log(posts);
-    const [currentPage, setCurrentPage] = useState(1);
     const pagePostsLimit = 8;
 
     const handleFilter = () => {
@@ -77,6 +78,12 @@ function ProjectList() {
         }
     }
 
+    const handlePageClick = (event) => {
+        const newOffset = event.selected * pagePostsLimit % posts.length;
+        console.log(`User requested page number ${event.selected}, which is offset ${newOffset}`);
+        setItemOffset(newOffset);
+    };
+
     return (
         <div>
             <h2 style={{marginTop:"1em"}}>Project List</h2>
@@ -96,82 +103,102 @@ function ProjectList() {
                                 <option value="PLA">Planned</option>
                             </Form.Control>
                         </Col>
-                        <Button as="input" variant="primary" defaultValue="Search Project" onClick={ () => {searchProjectByName(); handleFilter(); setCurrentPage(1)} } />
-                        <Button as="input" variant="secondary" defaultValue="Reset Search" onClick={ () => setPosts(tempPosts) }/>
+                        <Button as="input" variant="primary" defaultValue="Search Project" onClick={ () => {searchProjectByName(); handleFilter()} } />
+                        <Button as="input" variant="secondary" defaultValue="Reset Search" onClick={ () => {window.location.reload(); setPosts(tempPosts)}}/>
                     </Form.Group>
                 </Form>
             </div>
-            <Table responsive>
-                <thead>
-                <tr>
-                    <th> </th>
-                    <th>Number</th>
-                    <th>Name</th>
-                    <th>Status</th>
-                    <th>Customer</th>
-                    <th>Start Date</th>
-                    <th>Delete</th>
-                </tr>
-                </thead>
-                <tbody id="tableBody">
-                {posts
-                    .slice(
-                        (currentPage - 1) * pagePostsLimit,
-                        (currentPage - 1) * pagePostsLimit + pagePostsLimit
-                    )
-                    .map((post) => {
-                        return (
-                            <tr key={post.id}>
-                                <td>
-                                    <Form><FormCheck className={"project".concat(post.id)} id={post.id} onClick={() => {checkedBoxCount(post)}} disabled={ post.status === "NEW" ? "" : "disabled" }/></Form>
-                                </td>
-                                <td>
-                                    <Nav.Link href={ `\\editProject\\${post.id}`}>
-                                        {post.projectNumber}
-                                    </Nav.Link>
-                                </td>
-                                <td>
-                                    {post.name}
-                                </td>
-                                <td>
-                                    {post.status}
-                                </td>
-                                <td>
-                                    {post.customer}
-                                </td>
-                                <td>
-                                    {post.startDate}
-                                </td>
-                                <td>
-                                    {
-                                        deleteBtn(post)
-                                    }
-                                </td>
-                            </tr>
-                        );
-                    })}
+            <div style={{minHeight: "509px"}}>
+                <Table responsive>
+                    <thead>
                     <tr>
-                        <td colSpan="3" style={{textAlign: "left", color: "blue"}} id="numOfSelected">{postsDel.length} items selected</td>
-                        <td colSpan="4" style={{textAlign: "right", color: "red"}}>
-                            <button  style={{
-                                color: "red",
-                                backgroundColor: "white",
-                                border: 0
-                            }} onClick={ () => {
-                                let ids = [];
-                                for (const project of postsDel) {
-                                    ids.push(project.id)
-                                    deleteProject(project);
-                                }
-                                removeElementsById(ids);
-                            } }>delete selected items <i className="fa fa-trash"></i></button>
-                        </td>
+                        <th> </th>
+                        <th>Number</th>
+                        <th>Name</th>
+                        <th>Status</th>
+                        <th>Customer</th>
+                        <th>Start Date</th>
+                        <th>Delete</th>
                     </tr>
-                </tbody>
-            </Table>
-            <div className="paginationBtn">
-                <button onClick={() => { currentPage > 1 ? setCurrentPage(() => currentPage - 1) : setCurrentPage(currentPage); setPostsDel([]) }}>Left</button>
-                <button onClick={() => { currentPage < Math.ceil(posts.length/pagePostsLimit) ? setCurrentPage(() => currentPage + 1) : setCurrentPage(currentPage); setPostsDel([]) }}>Right</button>
+                    </thead>
+                    <tbody id="tableBody">
+                    {posts
+                        .slice(
+                            itemOffset,
+                            itemOffset + pagePostsLimit
+                        )
+                        .map((post) => {
+                            return (
+                                <tr key={post.id}>
+                                    <td>
+                                        <Form><FormCheck className={"project".concat(post.id)} id={post.id} onClick={() => {checkedBoxCount(post)}} disabled={ post.status === "NEW" ? "" : "disabled" }/></Form>
+                                    </td>
+                                    <td>
+                                        <Nav.Link href={ `\\editProject\\${post.id}`}>
+                                            {post.projectNumber}
+                                        </Nav.Link>
+                                    </td>
+                                    <td>
+                                        {post.name}
+                                    </td>
+                                    <td>
+                                        {post.status}
+                                    </td>
+                                    <td>
+                                        {post.customer}
+                                    </td>
+                                    <td>
+                                        {post.startDate}
+                                    </td>
+                                    <td>
+                                        {
+                                            deleteBtn(post)
+                                        }
+                                    </td>
+                                </tr>
+                            );
+                        })}
+                        <tr>
+                            <td colSpan="3" style={{textAlign: "left", color: "blue"}} id="numOfSelected">{postsDel.length} items selected</td>
+                            <td colSpan="4" style={{textAlign: "right", color: "red"}}>
+                                <button  style={{
+                                    color: "red",
+                                    backgroundColor: "white",
+                                    border: 0
+                                }} onClick={ () => {
+                                    let ids = [];
+                                    for (const project of postsDel) {
+                                        ids.push(project.id)
+                                        deleteProject(project);
+                                    }
+                                    removeElementsById(ids);
+                                } }>delete selected items <i className="fa fa-trash"></i></button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </Table>
+            </div>
+            <div style={{float: "right", marginRight: "18px", marginBottom: "19px"}}>
+                <ReactPaginate
+                    nextLabel="next >"
+                    onPageChange={handlePageClick}
+                    pageRangeDisplayed={3}
+                    marginPagesDisplayed={2}
+                    pageCount={Math.ceil(posts.length / pagePostsLimit)}
+                    previousLabel="< previous"
+                    pageClassName="page-item"
+                    pageLinkClassName="page-link"
+                    previousClassName="page-item"
+                    previousLinkClassName="page-link"
+                    nextClassName="page-item"
+                    nextLinkClassName="page-link"
+                    breakLabel="..."
+                    breakClassName="page-item"
+                    breakLinkClassName="page-link"
+                    containerClassName="pagination"
+                    activeClassName="active"
+                    renderOnZeroPageCount={null}
+                />
             </div>
         </div>
     );

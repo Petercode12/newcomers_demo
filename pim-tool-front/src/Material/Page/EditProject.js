@@ -8,9 +8,10 @@ function updateProject(project) {
     const projectId = project.id
     const projectNumber = document.getElementById('formProjectNumber').value;
     const projectName = document.getElementById('formProjectName').value;
+    const customer = document.getElementById('formCustomer').value;
     const status = document.getElementById('formStatus').value;
     const startDate = document.getElementById('formDate').value;
-    const bodyFormData = {"id": projectId, "projectNumber": projectNumber,"name": projectName,"startDate": startDate,"status": status};
+    const bodyFormData = {"id": projectId, "projectNumber": projectNumber,"name": projectName, "customer": customer, "startDate": startDate,"status": status};
     axios.put('http://localhost:8080/projects/update', bodyFormData)
         .then(res => res.data)
         .catch(err => console.error("Wasn't able to update property.", err));
@@ -45,7 +46,7 @@ function EditProject() {
                     <Form.Group as={Row} className="mb-3" controlId="formProjectNumber">
                         <Form.Label column sm="2">Project Number</Form.Label>
                         <Col sm="3">
-                            <Form.Control type="text" defaultValue={post.projectNumber}/>
+                            <Form.Control disabled="disabled" type="text" defaultValue={post.projectNumber}/>
                         </Col>
                     </Form.Group>
 
@@ -59,7 +60,7 @@ function EditProject() {
                     <Form.Group as={Row} className="mb-3" controlId="formCustomer">
                         <Form.Label column sm="2">Customer</Form.Label>
                         <Col sm="10">
-                            <Form.Control type="text"/>
+                            <Form.Control type="text" defaultValue={post.customer}/>
                         </Col>
                     </Form.Group>
 

@@ -1,5 +1,6 @@
 package vn.elca.training.model.dto;
 
+import javax.persistence.Column;
 import java.util.List;
 
 /**
@@ -10,6 +11,9 @@ public class UserDto {
     private Long id;
     private String username;
     private List<TaskDto> tasks;
+
+    @Column
+    private String visa;
 
     public Long getId() {
         return id;
@@ -33,5 +37,13 @@ public class UserDto {
 
     public void setTasks(List<TaskDto> tasks) {
         this.tasks = tasks;
+    }
+
+    public String getVisa() {
+        return visa;
+    }
+
+    public void setVisa(String visa) {
+        this.visa = visa;
     }
 }

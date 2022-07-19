@@ -29,3 +29,9 @@ INSERT INTO PROJECT VALUES (9, null, "2020-05-10", null, "LINN", null, 5912, "20
 INSERT INTO PROJECT VALUES (10, null, "2020-06-10", null, "SECUTIX", null, 1122, "2020-01-15", 0, null);
 
 INSERT INTO PROJECT VALUES (11, null, "2020-08-20", null, "IPEN", null, 1234, "2020-01-18", 3, null);
+
+INSERT INTO user VALUES (4, null,  "Phuoc", "PHAP");
+
+INSERT INTO user VALUES (5, null,  "Nhan", "VONN");
+
+INSERT INTO user VALUES (6, null,  "Linh", "LINP");

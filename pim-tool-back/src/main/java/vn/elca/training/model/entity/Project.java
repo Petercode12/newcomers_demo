@@ -55,6 +55,9 @@ public class Project {
 
     @ManyToMany
     List<Employee> employee = new ArrayList<Employee>();
+
+    @ManyToMany
+    List<User> user = new ArrayList<User>();
     public Project() {
     }
 
@@ -170,5 +173,13 @@ public class Project {
 
     public void setEmployee(List<Employee> employee) {
         this.employee = employee;
+    }
+
+    public List<User> getUser() {
+        return user;
+    }
+
+    public void setUser(List<User> user) {
+        this.user = user;
     }
 }

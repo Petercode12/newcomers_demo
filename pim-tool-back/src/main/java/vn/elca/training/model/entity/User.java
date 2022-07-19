@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -23,9 +24,15 @@ public class User implements Serializable {
     @Column
     private String fullName;
 
+    @Column
+    private String visa;
+
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
 //    @JsonIgnore
     private List<Task> tasks;
+
+    @ManyToMany(mappedBy = "user")
+    private List<Project> project = new ArrayList<Project>();
 
     public User() {}
 
@@ -58,5 +65,21 @@ public class User implements Serializable {
         for(Task t: tasks) {
             t.setUser(this);
         }
+    }
+
+    public List<Project> getProject() {
+        return project;
+    }
+
+    public void setProject(List<Project> project) {
+        this.project = project;
+    }
+
+    public String getVisa() {
+        return visa;
+    }
+
+    public void setVisa(String visa) {
+        this.visa = visa;
     }
 }

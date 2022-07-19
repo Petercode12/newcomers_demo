@@ -27,6 +27,7 @@ public class ApplicationMapper {
         dto.setFinishingDate(entity.getFinishingDate());
         dto.setStartDate(entity.getStartDate());
         dto.setStatus(entity.getStatus());
+        dto.setCustomer(entity.getCustomer());
         return dto;
     }
 
@@ -47,7 +48,7 @@ public class ApplicationMapper {
         dto.setId(user.getId());
         dto.setUsername(user.getUsername());
         dto.setTasks(user.getTasks().stream().map(this::taskToTaskDto).collect(Collectors.toList()));
-
+        dto.setVisa(user.getVisa());
         return dto;
     }
 }
