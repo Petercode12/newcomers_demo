@@ -6,9 +6,10 @@ import axios from "axios";
 import ReactPaginate from "react-paginate";
 
 function deleteProject(project) {
-    axios.put('http://localhost:8080/projects/remove', project)
+    console.log(project)
+    axios.post('http://localhost:8080/projects/remove', project)
         .then(res => res.data)
-        .catch(err => console.error("Wasn't able to delete property.", err));
+        .catch(err => { console.error("Wasn't able to delete property.", err); alert("Cannot delete! The project does not exist")});
 }
 
 function ProjectList() {
@@ -52,6 +53,7 @@ function ProjectList() {
                 backgroundColor: "white",
                 border: 0
             }} onClick={() => {
+                alert("You want to delete this project?");
                 deleteProject(post);
                 removeElementById(post.id)
             }}></button>;
@@ -84,6 +86,23 @@ function ProjectList() {
         setItemOffset(newOffset);
     };
 
+    const switchArrow = () => {
+        const arrow = document.getElementById('arrow');
+        if (arrow.className === "fa fa-angle-up") {
+            arrow.className = "fa fa-angle-down";
+        }
+        else {
+            arrow.className = "fa fa-angle-up";
+        }
+        setPosts([...posts.sort(function(a, b){
+            if (arrow.className === "fa fa-angle-up") {
+                return a.projectNumber-b.projectNumber;
+            }
+            else {
+                return b.projectNumber-a.projectNumber;
+            }
+        })])
+    }
     return (
         <div>
             <h2 style={{marginTop:"1em"}}>Project List</h2>
@@ -103,8 +122,8 @@ function ProjectList() {
                                 <option value="PLA">Planned</option>
                             </Form.Control>
                         </Col>
-                        <Button as="input" variant="primary" defaultValue="Search Project" onClick={ () => {searchProjectByName(); handleFilter()} } />
-                        <Button as="input" variant="secondary" defaultValue="Reset Search" onClick={ () => {window.location.reload(); setPosts(tempPosts)}}/>
+                        <Button as="input" variant="primary" type="button" value="Search Project" onClick={ () => {searchProjectByName(); handleFilter()} }></Button>
+                        <Button as="input" variant="secondary" type="button" value="Reset Search" onClick={ () => {window.location.reload(); setPosts(tempPosts)}}></Button>
                     </Form.Group>
                 </Form>
             </div>
@@ -113,7 +132,7 @@ function ProjectList() {
                     <thead>
                     <tr>
                         <th> </th>
-                        <th>Number</th>
+                        <th>Number <button className="fa fa-angle-up" id="arrow" style={{backgroundColor: "white", border:"0"}} onClick={switchArrow}></button></th>
                         <th>Name</th>
                         <th>Status</th>
                         <th>Customer</th>
@@ -167,6 +186,7 @@ function ProjectList() {
                                     border: 0
                                 }} onClick={ () => {
                                     let ids = [];
+                                    alert("You want to delete these projects?");
                                     for (const project of postsDel) {
                                         ids.push(project.id)
                                         deleteProject(project);

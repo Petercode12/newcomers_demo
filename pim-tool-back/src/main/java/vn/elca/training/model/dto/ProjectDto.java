@@ -18,6 +18,8 @@ public class ProjectDto {
     private LocalDate startDate;
     private STATUS status;
 
+    private String memberVisa;
+
     public Long getId() {
         return id;
     }
@@ -72,5 +74,13 @@ public class ProjectDto {
 
     public void setStatus(STATUS status) {
         this.status = status;
+    }
+
+    public String getMemberVisa() {
+        return memberVisa;
+    }
+
+    public void setMemberVisa(String memberVisa) {
+        this.memberVisa = memberVisa;
     }
 }

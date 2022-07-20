@@ -1,8 +1,8 @@
 package vn.elca.training.service;
 
-import java.util.List;
-
 import vn.elca.training.model.entity.Project;
+
+import java.util.List;
 
 /**
  * @author vlp
@@ -13,7 +13,7 @@ public interface ProjectService {
 
     long count();
 
-    Project update(Project project);
+    Project update(Project project, Project project1);
 
     void remove(Project project);
 }

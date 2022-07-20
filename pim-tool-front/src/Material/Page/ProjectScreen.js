@@ -4,7 +4,7 @@ import '../Style/ProjectScreen.css';
 import axios from "axios";
 import Select from 'react-select'
 
-function addProject() {
+function addProject(memberOps) {
     const projectNumber = document.getElementById('formProjectNumber').value;
     const projectName = document.getElementById('formProjectName').value;
     const customer = document.getElementById('formCustomer').value;
@@ -12,8 +12,8 @@ function addProject() {
     const status = document.getElementById('formStatus').value;
     const startDate = document.getElementById('startDate').value;
     const endDate = document.getElementById('endDate').value;
-    const bodyFormData = {"projectNumber": projectNumber,"name": projectName, "customer": customer, "groupId": group, "finishingDate": endDate,"startDate": startDate,"status": status};
-    axios.put('http://localhost:8080/projects/update', bodyFormData)
+    const bodyFormData = {"projectNumber": projectNumber,"name": projectName, "customer": customer, "groupId": group, "finishingDate": endDate,"startDate": startDate,"status": status, "memberVisa": memberOps};
+    axios.put('http://localhost:8080/projects/update', [bodyFormData, null])
         .then(res => { alert("Create Project Successfully"); return res.data; })
         .catch(err => { console.error("Wasn't able to update property.", err); window.location.assign("/error") });
     console.log(bodyFormData)
@@ -28,6 +28,27 @@ function required() {
     const startDate = document.getElementById('startDate').value;
 
     if (projectNumber === "" || projectName === "" || customer === "" || group === "" || status === "" || startDate === ""){
+        if (projectNumber === "") {
+            const inputField = document.getElementById("formProjectNumber");
+            inputField.style.border = "1px solid #fd7676";
+        }
+        if (projectName === "") {
+            const inputField = document.getElementById("formProjectName");
+            inputField.style.border = "1px solid #fd7676";
+        }
+        if (customer === "") {
+            const inputField = document.getElementById("formCustomer");
+            inputField.style.border = "1px solid #fd7676";
+        }
+        if (group === "") {
+            const inputField = document.getElementById("formGroup");
+            inputField.style.border = "1px solid #fd7676";
+        }
+        if (startDate === "") {
+            const inputField = document.getElementById("startDate");
+            inputField.style.border = "1px solid #fd7676";
+        }
+
         let para = document.createElement("div");
         para.className = "alert alert-danger";
         para.id = "alertChild";
@@ -107,14 +128,28 @@ function ProjectScreen() {
                 const element = document.getElementById("alert");
                 para.appendChild(para2);
                 element.appendChild(para);
+
+                const inputField = document.getElementById("formProjectNumber");
+                inputField.style.border = "1px solid #fd7676";
                 return false;
             }
         }
         return true;
     }
 
+    let memberOps = null;
     const onChange = (ops) => {
         console.log(ops);
+        if (ops !== null) {
+            let s = "";
+            for (const op of ops) {
+                s += op.label.split(":")[0].concat(", ");
+            }
+            memberOps = s.slice(0, -2);
+        }
+        else {
+            memberOps = null;
+        }
     }
 
     return (
@@ -165,7 +200,7 @@ function ProjectScreen() {
                                 options={memberOptions}
                                 className="basic-multi-select"
                                 classNamePrefix="select"
-                                onChange={onChange}
+                                onChange = {onChange}
                             />
                         </Col>
                     </Form.Group>
@@ -173,11 +208,8 @@ function ProjectScreen() {
                     <Form.Group as={Row} className="mb-3" controlId="formStatus">
                         <Form.Label column sm="2" className="required">Status</Form.Label>
                         <Col sm="3">
-                            <Form.Control type="text" as="select">
+                            <Form.Control type="text" as="select" disabled="disabled">
                                 <option value="0">New</option>
-                                <option value="1">Planned</option>
-                                <option value="2">In progress</option>
-                                <option value="3">Finished</option>
                             </Form.Control>
                         </Col>
                     </Form.Group>
@@ -196,40 +228,9 @@ function ProjectScreen() {
                 <hr/>
                 <Button as="input" variant="primary" type="submit" value="Create Project" onClick={() =>
                 {
-                    let check = false;
-                    for (const user of users) {
-                        for (let i = 0; i < document.getElementsByClassName('select__multi-value__label').length; i++) {
-                            console.log(user.visa)
-                            console.log(document.getElementsByClassName('select__multi-value__label')[0].innerHTML.split(":")[0])
-                            if (user.visa === document.getElementsByClassName('select__multi-value__label')[i].innerHTML.split(":")[0]) {
-                                check = true;
-                                console.log("here")
-                                break;
-                            }
-                        }
-                    }
-                    if (!check) {
-                            let para = document.createElement("div");
-                            para.className = "alert alert-danger";
-                            para.id = "alertChild";
-                            const node = document.createTextNode("Wrong visa");
-                            para.appendChild(node);
-
-                            let para2 = document.createElement("a");
-                            para2.href = "#";
-                            para2.className = "close";
-                            para2.id = "closeBtn";
-                            para2.onclick = cancelAlert;
-                            para2.innerHTML = "&times;";
-
-                            const element = document.getElementById("alert");
-                            para.appendChild(para2);
-                            element.appendChild(para);
-                     }
-
                     if(required()) {
                         if(validateProjectNum(document.getElementById('formProjectNumber').value)) {
-                            addProject();
+                            addProject(memberOps);
                             window.location.assign("/");
                         }
                 }}} />

@@ -23,25 +23,25 @@ public class Project {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column
+    @Column(nullable = false)
     private Long groupId;
 
     @Column
     private Long projectLeaderId;
 
-    @Column
+    @Column(nullable = false, unique = true)
     private Long projectNumber;
 
     @Column(nullable = false)
     private String name;
 
-    @Column
+    @Column(nullable = false)
     private String customer;
 
-    @Column
+    @Column(nullable = false)
     private STATUS status;
 
-    @Column
+    @Column(nullable = false)
     private LocalDate startDate;
 
     @Column
@@ -55,6 +55,9 @@ public class Project {
 
     @ManyToMany
     List<Employee> employee = new ArrayList<Employee>();
+
+    @Column
+    private String memberVisa;
 
     @ManyToMany
     List<User> user = new ArrayList<User>();
@@ -181,5 +184,13 @@ public class Project {
 
     public void setUser(List<User> user) {
         this.user = user;
+    }
+
+    public String getMemberVisa() {
+        return memberVisa;
+    }
+
+    public void setMemberVisa(String memberVisa) {
+        this.memberVisa = memberVisa;
     }
 }

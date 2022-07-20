@@ -7,24 +7,11 @@
     margin-top: 2em;
 }
 
-.wholeForm div{
-    margin-bottom: 1.8em;
+div.mb-3.form-group.row {
+    margin-bottom: 1.8em!important;
 }
 
 .btn {
     float: right;
     margin-right: 2em;
-}
-
-div.select__control {
-    height: 38px
-}
-span.select__indicator-separator {
-    height: 22px
-}
-svg.css-6q0nyr-Svg {
-    margin-bottom: 20px;
-}
-div.select__placeholder {
-    position: static;
 }

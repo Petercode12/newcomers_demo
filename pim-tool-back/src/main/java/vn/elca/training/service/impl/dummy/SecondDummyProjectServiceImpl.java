@@ -27,7 +27,7 @@ public class SecondDummyProjectServiceImpl extends AbstractDummyProjectService i
     }
 
     @Override
-    public Project update(Project project){
+    public Project update(Project project, Project project1){
         throw new UnsupportedOperationException("This is second dummy service");
     }
 

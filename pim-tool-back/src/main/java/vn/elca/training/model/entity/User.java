@@ -31,7 +31,7 @@ public class User implements Serializable {
 //    @JsonIgnore
     private List<Task> tasks;
 
-    @ManyToMany(mappedBy = "user")
+    @ManyToMany
     private List<Project> project = new ArrayList<Project>();
 
     public User() {}

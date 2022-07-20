@@ -1,14 +1,16 @@
 package vn.elca.training.web;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.util.CollectionUtils;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import vn.elca.training.model.dto.ProjectDto;
-import vn.elca.training.model.dto.UserDto;
 import vn.elca.training.model.entity.Project;
-import vn.elca.training.model.entity.User;
 import vn.elca.training.service.ProjectService;
 
 import java.util.List;
@@ -37,14 +39,14 @@ public class ProjectController extends AbstractApplicationController {
     }
 
     @PutMapping({"/update"})
-    public Project update(@RequestBody Project project) {
-        if (project == null) {
+    public Project update(@RequestBody List<Project> projects) {
+        if (projects.get(0) == null) {
             throw new IllegalArgumentException("Invalid request! Project not found");
         }
-        return projectService.update(project);
+        return projectService.update(projects.get(0), projects.get(1));
     }
 
-    @PutMapping({"/remove"})
+    @PostMapping({"/remove"})
     public void remove(@RequestBody Project project) {
         if (project == null) {
             throw new IllegalArgumentException("Invalid request! Project not found");

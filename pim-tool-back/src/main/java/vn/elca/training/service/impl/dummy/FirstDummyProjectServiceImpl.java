@@ -27,7 +27,7 @@ public class FirstDummyProjectServiceImpl extends AbstractDummyProjectService im
     }
 
     @Override
-    public Project update(Project project){
+    public Project update(Project project, Project project1){
         throw new UnsupportedOperationException("This is first dummy service");
     }
 

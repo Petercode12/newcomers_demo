@@ -28,6 +28,7 @@ public class ApplicationMapper {
         dto.setStartDate(entity.getStartDate());
         dto.setStatus(entity.getStatus());
         dto.setCustomer(entity.getCustomer());
+        dto.setMemberVisa(entity.getMemberVisa());
         return dto;
     }
 
