@@ -12,10 +12,25 @@ function addProject() {
     const status = document.getElementById('formStatus').value;
     const startDate = document.getElementById('startDate').value;
     const endDate = document.getElementById('endDate').value;
+<<<<<<< Updated upstream
     const bodyFormData = {"projectNumber": projectNumber,"name": projectName, "customer": customer, "groupId": group, "finishingDate": endDate,"startDate": startDate,"status": status};
     axios.put('http://localhost:8080/projects/update', bodyFormData)
         .then(res => { alert("Create Project Successfully"); return res.data; })
         .catch(err => { console.error("Wasn't able to update property.", err); window.location.assign("/error") });
+=======
+    const bodyFormData = {"projectNumber": projectNumber,"name": projectName, "customer": customer, "groupId": group, "finishingDate": endDate,"startDate": startDate,"status": status, "memberVisa": memberOps};
+    axios.put('http://localhost:8080/projects/update', [bodyFormData, null])
+        .then(res => {  window.alert("Create Project Successfully"); window.location.assign("/"); return res.data; })
+        .catch(err => {
+            console.error("Wasn't able to update property.", err);
+            if (window.confirm("Cannot create project! Duplicate project number")) {
+                window.location.assign("/")
+            }
+            else {
+                window.location.assign("/error")
+            }
+        });
+>>>>>>> Stashed changes
     console.log(bodyFormData)
 }
 
@@ -90,7 +105,7 @@ function ProjectScreen() {
 
     const validateProjectNum = (num) => {
         for(const post of posts) {
-            if (post.projectNumber == num) {
+            if (post.projectNumber.toString() === num.toString()) {
                 let para = document.createElement("div");
                 para.className = "alert alert-danger";
                 para.id = "alertChild";
@@ -149,9 +164,9 @@ function ProjectScreen() {
                         <Col sm="3">
                             <Form.Control type="text" as="select">
                                 <option value="">Select group</option>
-                                <option value="1">One</option>
-                                <option value="2">Two</option>
-                                <option value="3">Three</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
                             </Form.Control>
                         </Col>
                     </Form.Group>
@@ -187,7 +202,7 @@ function ProjectScreen() {
                         <Col sm="3">
                         <Form.Control id="startDate" type="date"/>
                         </Col>
-                        <Form.Label column sm="2">End date</Form.Label>
+                        <Form.Label id="endDateLabel" column sm="2">End date</Form.Label>
                         <Col sm="3">
                         <Form.Control id="endDate" type="date"/>
                         </Col>
@@ -199,8 +214,12 @@ function ProjectScreen() {
                     console.log(document.getElementsByClassName('select__multi-value__label'))
                     if(required()) {
                         if(validateProjectNum(document.getElementById('formProjectNumber').value)) {
+<<<<<<< Updated upstream
                             addProject();
                             window.location.assign("/");
+=======
+                            addProject(memberOps);
+>>>>>>> Stashed changes
                         }
                 }}} />
                 <Button as="input" variant="secondary" type="submit" value="Cancel" onClick={() => {window.location.reload();}}/>

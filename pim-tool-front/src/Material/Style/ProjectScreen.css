@@ -16,6 +16,7 @@
     margin-right: 2em;
 }
 
+<<<<<<< Updated upstream
 div.select__control {
     height: 38px
 }
@@ -28,3 +29,9 @@ svg.css-6q0nyr-Svg {
 div.select__placeholder {
     position: static;
 }
+=======
+#endDateLabel {
+    padding-right: 0;
+    left: 5em
+}
+>>>>>>> Stashed changes

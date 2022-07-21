@@ -28,6 +28,11 @@ public class ApplicationMapper {
         dto.setStartDate(entity.getStartDate());
         dto.setStatus(entity.getStatus());
         dto.setCustomer(entity.getCustomer());
+<<<<<<< Updated upstream
+=======
+        dto.setMemberVisa(entity.getMemberVisa());
+        dto.setGroupId(entity.getGroupId());
+>>>>>>> Stashed changes
         return dto;
     }
 

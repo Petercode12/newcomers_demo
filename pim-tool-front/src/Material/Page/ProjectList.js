@@ -60,8 +60,13 @@ function ProjectList() {
 
     const searchProjectByName = () => {
         const name = document.getElementById("filterByName").value;
-        if (name !== '') {
+        const num = parseInt(name);
+        if (name !== '' && Number.isNaN(num)) {
             const filteredProjects = posts.filter((post) => post.name.toLowerCase().includes(name) || post.name.toUpperCase().includes(name));
+            setPosts(filteredProjects);
+        }
+        if (name !== '' && !Number.isNaN(num)) {
+            const filteredProjects = posts.filter((post) => post.projectNumber.toString().includes(name));
             setPosts(filteredProjects);
         }
     }
@@ -84,6 +89,45 @@ function ProjectList() {
         setItemOffset(newOffset);
     };
 
+<<<<<<< Updated upstream
+=======
+    const switchArrow = () => {
+        const arrow = document.getElementById('arrow');
+        if (arrow.className === "fa fa-angle-up") {
+            arrow.className = "fa fa-angle-down";
+        }
+        else {
+            arrow.className = "fa fa-angle-up";
+        }
+        setPosts([...posts.sort(function(a, b){
+            if (arrow.className === "fa fa-angle-up") {
+                return a.projectNumber-b.projectNumber;
+            }
+            else {
+                return b.projectNumber-a.projectNumber;
+            }
+        })])
+    }
+
+    const switchArrow2 = () => {
+        const arrow = document.getElementById('arrow2');
+        if (arrow.className === "fa fa-angle-up") {
+            arrow.className = "fa fa-angle-down";
+        }
+        else {
+            arrow.className = "fa fa-angle-up";
+        }
+        setPosts([...posts.sort(function(a, b){
+            if (arrow.className === "fa fa-angle-up") {
+                return Date.parse(a.startDate)-Date.parse(b.startDate);
+            }
+            else {
+                return Date.parse(b.startDate)-Date.parse(a.startDate);
+            }
+        })])
+    }
+
+>>>>>>> Stashed changes
     return (
         <div>
             <h2 style={{marginTop:"1em"}}>Project List</h2>
@@ -117,7 +161,7 @@ function ProjectList() {
                         <th>Name</th>
                         <th>Status</th>
                         <th>Customer</th>
-                        <th>Start Date</th>
+                        <th>Start Date <button className="fa fa-angle-up" id="arrow2" style={{backgroundColor: "white", border:"0"}} onClick={switchArrow2}></button></th>
                         <th>Delete</th>
                     </tr>
                     </thead>

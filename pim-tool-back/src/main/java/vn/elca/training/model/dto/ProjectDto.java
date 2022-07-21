@@ -1,7 +1,8 @@
 package vn.elca.training.model.dto;
 
-import java.time.LocalDate;
 import vn.elca.training.model.entity.Project.STATUS;
+
+import java.time.LocalDate;
 
 /**
  * @author gtn
@@ -18,6 +19,12 @@ public class ProjectDto {
     private LocalDate startDate;
     private STATUS status;
 
+<<<<<<< Updated upstream
+=======
+    private String memberVisa;
+    private Long groupId;
+
+>>>>>>> Stashed changes
     public Long getId() {
         return id;
     }
@@ -73,4 +80,23 @@ public class ProjectDto {
     public void setStatus(STATUS status) {
         this.status = status;
     }
+<<<<<<< Updated upstream
+=======
+
+    public String getMemberVisa() {
+        return memberVisa;
+    }
+
+    public void setMemberVisa(String memberVisa) {
+        this.memberVisa = memberVisa;
+    }
+
+    public Long getGroupId() {
+        return groupId;
+    }
+
+    public void setGroupId(Long groupId) {
+        this.groupId = groupId;
+    }
+>>>>>>> Stashed changes
 }
